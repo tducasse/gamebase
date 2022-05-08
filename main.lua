@@ -17,37 +17,39 @@ Inspect = function(a, options)
   print(inspect(a, options))
 end
 
-Input = baton.new {
-  controls = {
-    left = { "key:left", "key:a" },
-    right = { "key:right", "key:d" },
-    up = { "key:up", "key:w" },
-    down = { "key:down", "key:s" },
-    jump = { "key:space", "key:z" },
-    shoot = { "key:j", "key:x" },
-    cancel = { "key:escape" },
-  },
-  pairs = { move = { "left", "right", "up", "down" } },
-}
+function love.load()
+  Input = baton.new {
+    controls = {
+      left = { "key:left", "key:a" },
+      right = { "key:right", "key:d" },
+      up = { "key:up", "key:w" },
+      down = { "key:down", "key:s" },
+      jump = { "key:space", "key:z" },
+      shoot = { "key:j", "key:x" },
+      cancel = { "key:escape" },
+    },
+    pairs = { move = { "left", "right", "up", "down" } },
+  }
 
-love.graphics.setDefaultFilter("nearest", "nearest")
-love.graphics.setLineStyle("rough")
+  love.graphics.setDefaultFilter("nearest", "nearest")
+  love.graphics.setLineStyle("rough")
 
-push:setupScreen(
-    RES_X, RES_Y, WIN_X, WIN_Y, {
-      fullscreen = false,
-      vsync = true,
-      resizable = true,
-      canvas = false,
-      pixelperfect = true,
-    })
+  push:setupScreen(
+      RES_X, RES_Y, WIN_X, WIN_Y, {
+        fullscreen = false,
+        vsync = true,
+        resizable = true,
+        canvas = false,
+        pixelperfect = true,
+      })
 
-local screens = {
-  game = require("src.screens.Game"),
-  menu = require("src.screens.Menu"),
-}
-ScreenManager.init(screens, "menu")
-ScreenManager.registerCallbacks()
+  local screens = {
+    game = require("src.screens.Game"),
+    menu = require("src.screens.Menu"),
+  }
+  ScreenManager.init(screens, "menu")
+  ScreenManager.registerCallbacks()
+end
 
 function love.resize(w, h)
   return push:resize(w, h)
