@@ -2,6 +2,7 @@ local push = require("lib.push")
 local ScreenManager = require("lib.screen_manager")
 local baton = require("lib.baton")
 local inspect = require("lib.inspect")
+require("lib.audio")
 
 Class = require("lib.classic")
 Signal = require("lib.signal")
