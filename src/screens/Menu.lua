@@ -7,16 +7,19 @@ function MenuScreen.new()
   local self = Screen.new()
 
   local push = require("lib.push")
+  local UI = require("lib.ui.core")
+
+  local Buttons = UI.Buttons()
 
   local menu = {}
 
   function self:init()
     menu = love.graphics.newImage("assets/menu-background.png", nil)
+    Buttons:addCentered("start", "Click here to start", 120, 50)
   end
 
   function self:update()
-    Input:update()
-    if Input:pressed("jump") then
+    if Buttons:isPressed("start") then
       love.audio.stop(Music)
       ScreenManager.switch("game")
     end
@@ -25,7 +28,12 @@ function MenuScreen.new()
   function self:draw()
     push:start()
     love.graphics.draw(menu)
+    Buttons:draw()
     push:finish()
+  end
+
+  function self:mousepressed(x, y)
+    Buttons:mousepressed(x, y)
   end
 
   return self
