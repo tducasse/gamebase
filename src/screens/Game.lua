@@ -10,6 +10,10 @@ function GameScreen.new()
   local Tilemapper = require("lib.tilemapper")
   local bump = require("lib.bump")
   local Player = require("src.entities.player")
+  local Camera = require("lib.camera")
+
+  local camera = Camera(RES_X / 2, RES_Y / 2, RES_X, RES_Y)
+  camera:setFollowStyle("PLATFORMER")
 
   local world = {}
   local map = {}
@@ -27,6 +31,7 @@ function GameScreen.new()
               { aseprite = true, collisions = { [1] = true } })
     world = bump.newWorld()
     map:loadLevel("Level_0", world)
+    camera:setBounds(0, 0, map.active.width, map.active.height)
     init_level()
   end
 
@@ -37,11 +42,17 @@ function GameScreen.new()
       ScreenManager.switch("menu")
     end
     player:update(dt)
+    camera:follow(player.x, player.y)
+    camera:update(dt)
   end
 
   function self:draw()
     push:start()
+    love.graphics.clear()
     love.graphics.draw(game)
+
+    camera:attach()
+
     map:draw()
     -- -- useful to debug collisions
     -- local items = world:getItems()
@@ -52,6 +63,10 @@ function GameScreen.new()
     --   end
     -- end
     player:draw()
+
+    camera:detach()
+    camera:draw()
+    -- anything drawn here will be static on the screen
     push:finish()
   end
 
