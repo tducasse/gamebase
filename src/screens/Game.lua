@@ -9,10 +9,16 @@ function GameScreen.new()
   local push = require("lib.push")
   local Tilemapper = require("lib.tilemapper")
   local bump = require("lib.bump")
+  local Player = require("src.entities.player")
 
   local world = {}
   local map = {}
   local game = {}
+  local player = {}
+
+  local function init_level()
+    player = Player(map.active.Entities.Player[1], world)
+  end
 
   function self:init()
     game = love.graphics.newImage("assets/game-background.png", nil)
@@ -21,14 +27,16 @@ function GameScreen.new()
               { aseprite = true, collisions = { [1] = true } })
     world = bump.newWorld()
     map:loadLevel("Level_0", world)
+    init_level()
   end
 
-  function self:update()
+  function self:update(dt)
     Input:update()
-    if Input:pressed("jump") then
+    if Input:pressed("cancel") then
       love.audio.stop(Music)
       ScreenManager.switch("menu")
     end
+    player:update(dt)
   end
 
   function self:draw()
@@ -43,6 +51,7 @@ function GameScreen.new()
     --     love.graphics.rectangle("line", item.x, item.y, item.w, item.h)
     --   end
     -- end
+    player:draw()
     push:finish()
   end
 
