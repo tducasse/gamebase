@@ -111,7 +111,7 @@
 			"parallaxScaling": true,
 			"requiredTags": [],
 			"excludedTags": [],
-			"intGridValues": [{ "value": 1, "identifier": null, "color": "#000000" }],
+			"intGridValues": [ { "value": 1, "identifier": "walls", "color": "#000000" }, { "value": 2, "identifier": "doors", "color": "#FF0000" } ],
 			"autoTilesetDefUid": null,
 			"autoRuleGroups": [],
 			"autoSourceLayerDefUid": null,
