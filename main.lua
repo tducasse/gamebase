@@ -1,3 +1,6 @@
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+  require("lldebugger").start()
+end
 local push = require("lib.push")
 local ScreenManager = require("lib.screen_manager")
 local baton = require("lib.baton")
