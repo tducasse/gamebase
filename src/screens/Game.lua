@@ -46,13 +46,7 @@ function GameScreen.new()
     camera:update(dt)
   end
 
-  function self:draw()
-    push:start()
-    love.graphics.clear()
-    love.graphics.draw(game)
-
-    camera:attach()
-
+  local function drawGame()
     map:draw()
     -- -- useful to debug collisions
     -- local items = world:getItems()
@@ -63,10 +57,29 @@ function GameScreen.new()
     --   end
     -- end
     player:draw()
+  end
 
+  local function drawBackground()
+    love.graphics.draw(game)
+  end
+
+  local function drawUI()
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.print("Press 'Escape' to return to the menu.", 10, 10)
+  end
+
+  function self:draw()
+    push:start()
+    love.graphics.clear()
+
+    drawBackground()
+
+    camera:attach()
+    drawGame()
     camera:detach()
     camera:draw()
-    -- anything drawn here will be static on the screen
+
+    drawUI()
     push:finish()
   end
 
