@@ -11,6 +11,8 @@ function GameScreen.new()
   local bump = require("lib.bump")
   local Player = require("src.entities.player")
   local Camera = require("lib.camera")
+  local console = require("lib.console")
+  require("src.debug")
 
   local camera = Camera(RES_X / 2, RES_Y / 2, RES_X, RES_Y)
   camera:setFollowStyle("PLATFORMER")
@@ -37,13 +39,36 @@ function GameScreen.new()
 
   function self:update(dt)
     Input:update()
+    console.update(dt)
     if Input:pressed("cancel") then
       love.audio.stop(Music)
       ScreenManager.switch("menu")
     end
+    if Input:pressed("fullscreen") then
+      push:switchFullscreen()
+    end
+    if console.visible then
+      return
+    end
     player:update(dt)
     camera:follow(player.x, player.y)
     camera:update(dt)
+  end
+
+  function self:keypressed(key)
+    if console.keypressed(key) then
+      return
+    end
+  end
+
+  function self:textinput(text)
+    if console.textinput(text) then
+      return
+    end
+  end
+
+  function self:resize(w, h)
+    console.resize(w, h)
   end
 
   local function drawGame()
@@ -66,6 +91,7 @@ function GameScreen.new()
   local function drawUI()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print("Press 'Escape' to return to the menu.", 10, 10)
+    console.draw()
   end
 
   function self:draw()

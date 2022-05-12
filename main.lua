@@ -30,6 +30,7 @@ function love.load()
       jump = { "key:space", "key:z" },
       shoot = { "key:j", "key:x" },
       cancel = { "key:escape" },
+      fullscreen = { "key:f11" },
     },
     pairs = { move = { "left", "right", "up", "down" } },
   }
@@ -38,13 +39,8 @@ function love.load()
   love.graphics.setLineStyle("rough")
 
   push:setupScreen(
-      RES_X, RES_Y, WIN_X, WIN_Y, {
-        fullscreen = false,
-        vsync = true,
-        resizable = true,
-        canvas = false,
-        pixelperfect = true,
-      })
+      RES_X, RES_Y, WIN_X, WIN_Y,
+      { fullscreen = false, vsync = true, canvas = false, pixelperfect = true })
 
   local screens = {
     game = require("src.screens.Game"),
